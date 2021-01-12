@@ -1,8 +1,9 @@
-#%%
+# %%
 import questionary
 from quiz_brain import QuizBrain
-from data import question_data
+from data import question_data, new_question_data_clean
 from question_model import Question
+import random
 
 print('''
 
@@ -26,16 +27,17 @@ print('''
 
 i = 0
 question_bank = []
-for k in question_data:
+for k in new_question_data_clean:
     i += 1
     exec(f'question_{i} = Question("{k["text"]}","{k["answer"]}")')
     exec(f'question_bank.append(question_{i})')
+
+random.shuffle(question_bank)
 
 quiz = QuizBrain(question_bank)
 
 while quiz.still_has_questions():
     quiz.next_question()
-
 
 
 print(f"Your final score was {quiz.score}/{len(quiz.question_list)}")
